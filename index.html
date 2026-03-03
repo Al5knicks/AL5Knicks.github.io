@@ -1,0 +1,587 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aidan Laurence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --accent: #6c63ff;
+    --accent2: #00d4aa;
+    --accent3: #ff6b6b;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --border: #2a2a3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  .bg-grid {
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.3;
+  }
+  .bg-glow {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 20% 20%, rgba(108,99,255,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,212,170,0.08) 0%, transparent 60%);
+  }
+
+  main { position: relative; z-index: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 20px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(10,10,15,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 100px 60px 60px;
+    text-align: center;
+  }
+  .hero-inner { max-width: 800px; }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent2);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding: 8px 16px;
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 4px;
+  }
+  .hero h1 {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #fff 0%, #a0a0c0 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: 1.15rem; color: var(--muted); max-width: 560px;
+    margin: 0 auto 40px; line-height: 1.7;
+  }
+  .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 14px 32px; border-radius: 6px; font-size: 0.9rem;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+    cursor: pointer; border: none; text-decoration: none;
+    transition: all 0.3s; letter-spacing: 0.5px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #9c94ff);
+    color: #fff;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108,99,255,0.4); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* Stats row */
+  .stats-row {
+    display: flex; gap: 0; justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+    max-width: 600px; margin: 60px auto 0;
+  }
+  .stat {
+    flex: 1; padding: 24px 20px; text-align: center;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-val {
+    font-size: 1.8rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .stat-lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  /* SECTIONS */
+  section { padding: 100px 60px; max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700; margin-bottom: 50px;
+    line-height: 1.15;
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .skill-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(108,99,255,0.05), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-icon { font-size: 1.8rem; margin-bottom: 14px; }
+  .skill-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 0.72rem; padding: 5px 12px;
+    border-radius: 4px; background: rgba(108,99,255,0.12);
+    color: var(--accent); border: 1px solid rgba(108,99,255,0.2);
+    font-family: 'Space Mono', monospace;
+  }
+  .tag.green { background: rgba(0,212,170,0.1); color: var(--accent2); border-color: rgba(0,212,170,0.2); }
+  .tag.red { background: rgba(255,107,107,0.1); color: var(--accent3); border-color: rgba(255,107,107,0.2); }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+  .project-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 32px;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .project-card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: rgba(108,99,255,0.4); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .project-card:hover::after { opacity: 1; }
+  .project-date {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem;
+    color: var(--muted); margin-bottom: 12px;
+  }
+  .project-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; }
+  .project-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* TIMELINE / EXPERIENCE */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item { position: relative; padding-bottom: 48px; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -39px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+    box-shadow: 0 0 12px rgba(108,99,255,0.5);
+  }
+  .timeline-date {
+    font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    color: var(--accent2); margin-bottom: 8px;
+  }
+  .timeline-item h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+  .timeline-item h4 { font-size: 0.875rem; color: var(--muted); margin-bottom: 14px; }
+  .timeline-item ul { list-style: none; }
+  .timeline-item ul li {
+    font-size: 0.875rem; color: var(--muted); margin-bottom: 8px;
+    padding-left: 18px; position: relative; line-height: 1.6;
+  }
+  .timeline-item ul li::before {
+    content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.75rem;
+  }
+
+  /* EDUCATION */
+  .edu-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 40px;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 24px; align-items: start;
+  }
+  .edu-school { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+  .edu-degree { color: var(--accent2); font-size: 1rem; margin-bottom: 6px; }
+  .edu-meta { color: var(--muted); font-size: 0.875rem; margin-bottom: 20px; }
+  .gpa-badge {
+    background: linear-gradient(135deg, var(--accent), #9c94ff);
+    padding: 12px 24px; border-radius: 8px; text-align: center;
+    white-space: nowrap;
+  }
+  .gpa-badge .gpa-val { font-size: 1.6rem; font-weight: 700; color: #fff; }
+  .gpa-badge .gpa-lbl { font-size: 0.7rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; }
+  .courses { display: flex; flex-wrap: wrap; gap: 8px; }
+  .course-tag {
+    font-size: 0.72rem; padding: 5px 12px; border-radius: 4px;
+    background: rgba(255,255,255,0.04); color: var(--muted);
+    border: 1px solid var(--border);
+  }
+
+  /* CONTACT */
+  .contact-row {
+    display: flex; flex-wrap: wrap; gap: 20px;
+  }
+  .contact-card {
+    flex: 1; min-width: 220px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+    display: flex; align-items: center; gap: 16px;
+    transition: all 0.3s; text-decoration: none;
+  }
+  .contact-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .contact-icon { font-size: 1.5rem; }
+  .contact-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .contact-val { font-size: 0.95rem; color: var(--text); font-weight: 500; }
+
+  /* INTERESTS */
+  .interest-pills { display: flex; gap: 16px; flex-wrap: wrap; }
+  .interest-pill {
+    padding: 14px 28px; border-radius: 40px;
+    border: 1px solid var(--border); background: var(--card);
+    font-size: 1rem; display: flex; align-items: center; gap: 10px;
+    transition: all 0.3s;
+  }
+  .interest-pill:hover { border-color: var(--accent); background: rgba(108,99,255,0.1); transform: scale(1.04); }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 40px;
+    border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 0.8rem;
+    font-family: 'Space Mono', monospace;
+    position: relative; z-index: 1;
+  }
+
+  /* Scroll animation */
+  .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    section { padding: 70px 24px; }
+    .edu-card { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<nav>
+  <div class="nav-logo">AL</div>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">Available May – December 2026</div>
+      <h1>Aidan<br><span>Laurence</span></h1>
+      <p class="hero-sub">Data Science student at Northeastern University building quant trading systems, ML models, and data-driven insights.</p>
+      <div class="hero-cta">
+        <a href="mailto:laurenceaidan5@gmail.com" class="btn btn-primary">Get In Touch</a>
+        <a href="#projects" class="btn btn-secondary">View Projects</a>
+      </div>
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-val">3.4</div>
+          <div class="stat-lbl">GPA</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">4+</div>
+          <div class="stat-lbl">Projects</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">5yrs</div>
+          <div class="stat-lbl">Investing</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">2</div>
+          <div class="stat-lbl">Global Campuses</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <section id="skills" class="fade-in">
+    <div class="section-label">// 01 — Expertise</div>
+    <h2 class="section-title">Skills &<br>Technologies</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🐍</div>
+        <h3>Python Ecosystem</h3>
+        <div class="tags">
+          <span class="tag">Pandas</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Scikit-Learn</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">Matplotlib</span>
+          <span class="tag">Seaborn</span>
+          <span class="tag">Plotly</span>
+          <span class="tag">Statsmodels</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📊</div>
+        <h3>Data Analysis</h3>
+        <div class="tags">
+          <span class="tag green">OLS Regression</span>
+          <span class="tag green">A/B Testing</span>
+          <span class="tag green">Time-Series</span>
+          <span class="tag green">Hypothesis Testing</span>
+          <span class="tag green">PCA</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💹</div>
+        <h3>Finance & Quant</h3>
+        <div class="tags">
+          <span class="tag red">Portfolio Optimization</span>
+          <span class="tag red">CAPM</span>
+          <span class="tag red">Factor Models</span>
+          <span class="tag red">Sharpe Ratio</span>
+          <span class="tag red">Beta Analysis</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🛠️</div>
+        <h3>Tools & Infra</h3>
+        <div class="tags">
+          <span class="tag">SQL / MySQL</span>
+          <span class="tag">Git / GitHub</span>
+          <span class="tag">Beautiful Soup</span>
+          <span class="tag">Alpha Vantage API</span>
+          <span class="tag">Alpaca API</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="fade-in">
+    <div class="section-label">// 02 — Work</div>
+    <h2 class="section-title">Featured<br>Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-date">Dec 2025 – Present</div>
+        <h3>🤖 Automated Equity Trading Platform</h3>
+        <p>Built and deployed a live mean-reversion trading system executing daily strategies across 5 equities using Bollinger Bands and RSI indicators at real market prices.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Alpaca API</span>
+          <span class="tag">Alpha Vantage</span>
+          <span class="tag green">Live Trading</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-date">Jan – Feb 2026</div>
+        <h3>📈 Quantitative Portfolio & Momentum Analysis</h3>
+        <p>Multi-asset momentum analysis across equities, bonds, FX, and commodities. Built long-only, short-only, and zero-cost long–short portfolios with risk-parity weighting.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag red">Momentum</span>
+          <span class="tag red">Risk-Parity</span>
+          <span class="tag">t-statistics</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-date">Oct – Nov 2025</div>
+        <h3>🏥 Public Health Data Visualization</h3>
+        <p>Synthesized multi-source health data to analyze disparities affecting women in high-deprivation areas across England and Wales, with publication-quality visualizations.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag green">Data Viz</span>
+          <span class="tag green">Public Health</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-date">Jul – Aug 2025</div>
+        <h3>🎮 ML Analysis of Game Asset Performance</h3>
+        <p>Applied correlation analysis, linear regression, K-means clustering, and feature importance to identify pricing inefficiencies and performance patterns in game asset data.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">K-Means</span>
+          <span class="tag">Linear Regression</span>
+          <span class="tag red">ML</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="fade-in">
+    <div class="section-label">// 03 — Experience</div>
+    <h2 class="section-title">Work<br>History</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">Nov 2020 – Present</div>
+        <h3>Personal Investment Manager</h3>
+        <h4>Self-Directed</h4>
+        <ul>
+          <li>Managing two personal investment portfolios with multi-year, hands-on market experience driven by active research and analysis.</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Jun – Sep 2023</div>
+        <h3>Data Entry Intern</h3>
+        <h4>My Money Workshop — New York, NY</h4>
+        <ul>
+          <li>Executed large-scale data migration of 1,500+ donor records into Salesforce with standardization rules to improve data quality.</li>
+          <li>Performed data validation and cleaning to maintain database integrity and support accurate reporting.</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Jun – Oct 2021</div>
+        <h3>Restaurant Helper</h3>
+        <h4>Brooklyn Organic Kitchen — Brooklyn, NY</h4>
+        <ul>
+          <li>Supported dining service operations in a fast-paced environment, contributing to team coordination and customer satisfaction.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="fade-in">
+    <div class="section-label">// 04 — Education</div>
+    <h2 class="section-title">Academic<br>Background</h2>
+    <div class="edu-card">
+      <div>
+        <div class="edu-school">Northeastern University</div>
+        <div class="edu-degree">B.S. Data Science</div>
+        <div class="edu-meta">Boston, MA &nbsp;·&nbsp; Expected May 2028 &nbsp;·&nbsp; 🌍 SLU Madrid &amp; NU London</div>
+        <div class="courses">
+          <span class="course-tag">Algorithmic Trading</span>
+          <span class="course-tag">Futures Markets</span>
+          <span class="course-tag">Neural Networks</span>
+          <span class="course-tag">ML & Data Mining</span>
+          <span class="course-tag">Applied Econometrics</span>
+          <span class="course-tag">Investments</span>
+          <span class="course-tag">Probability & Stats</span>
+          <span class="course-tag">Data Visualization</span>
+          <span class="course-tag">Large-Scale Storage</span>
+          <span class="course-tag">Databases</span>
+          <span class="course-tag">Discrete Structures</span>
+          <span class="course-tag">Calculus I</span>
+        </div>
+      </div>
+      <div class="gpa-badge">
+        <div class="gpa-val">3.4</div>
+        <div class="gpa-lbl">GPA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERESTS -->
+  <section class="fade-in">
+    <div class="section-label">// 05 — Beyond the Code</div>
+    <h2 class="section-title">Interests</h2>
+    <div class="interest-pills">
+      <div class="interest-pill">🏀 Basketball</div>
+      <div class="interest-pill">🥾 Hiking</div>
+      <div class="interest-pill">🚴 Biking</div>
+      <div class="interest-pill">📈 Markets</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="fade-in">
+    <div class="section-label">// 06 — Let's Connect</div>
+    <h2 class="section-title">Get In<br>Touch</h2>
+    <div class="contact-row">
+      <a href="mailto:laurenceaidan5@gmail.com" class="contact-card">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-val">laurenceaidan5@gmail.com</div>
+        </div>
+      </a>
+      <a href="tel:9173993398" class="contact-card">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-val">(917) 399-3255</div>
+        </div>
+      </a>
+      <a href="#" class="contact-card">
+        <div class="contact-icon">💼</div>
+        <div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-val">View Profile →</div>
+        </div>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 Aidan Laurence &nbsp;·&nbsp; Built with data in mind.</p>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

@@ -276,37 +276,6 @@
   .contact-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
   .contact-val { font-size: 0.95rem; color: var(--text); font-weight: 500; }
 
-  /* RESULTS BUTTON */
-  .results-btn {
-    margin-top: 18px; padding: 10px 20px;
-    background: transparent; border: 1px solid var(--accent2);
-    color: var(--accent2); border-radius: 6px;
-    font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem;
-    font-weight: 600; cursor: pointer; transition: all 0.3s;
-    letter-spacing: 0.4px;
-  }
-  .results-btn:hover { background: rgba(0,212,170,0.1); transform: translateY(-2px); }
-
-  /* MODAL */
-  #sim-modal {
-    display: none; position: fixed; inset: 0; z-index: 999;
-    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-    align-items: center; justify-content: center; padding: 24px;
-  }
-  .modal-box {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px; max-width: 900px; width: 100%;
-    position: relative;
-  }
-  .modal-box h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
-  .modal-box p { font-size: 0.78rem; color: var(--muted); margin-bottom: 18px; }
-  .modal-box img { width: 100%; border-radius: 8px; border: 1px solid var(--border); }
-  .modal-close {
-    position: absolute; top: 16px; right: 20px;
-    background: none; border: none; color: var(--muted);
-    font-size: 1.4rem; cursor: pointer; transition: color 0.2s;
-  }
-  .modal-close:hover { color: var(--text); }
 
 
   /* INTERESTS */
@@ -526,7 +495,6 @@
           <span class="tag">NumPy / SciPy</span>
           <span class="tag">Plotly</span>
         </div>
-        <button class="results-btn" onclick="document.getElementById('sim-modal').style.display='flex'">📊 View Simulation Results</button>
       </div>
 
       <div class="project-card">
